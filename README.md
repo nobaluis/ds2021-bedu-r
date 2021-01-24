@@ -1,2 +1,9 @@
-# ds2021-bedu-r
-Evendencias de los postworks para el curos de Data Science de BEDU - Modulo 2: Progrmacion con R
+# DS2021-BEDU-R
+Evendencias de los postworks para el curso: **Data Science** de `BEDU` - **Modulo 2** Programacion con R
+
+## Integrates
+
+- [Luis Castillo](https://github.com/nobaluis) - luis.castillo@cinvestav.mx
+- Paulo
+- Omar
+- Emiliano
