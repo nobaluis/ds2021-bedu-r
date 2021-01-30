@@ -6,4 +6,4 @@ Evendencias de los postworks para el curso: **Data Science** de `BEDU` - **Modul
 - [Luis Castillo](https://github.com/nobaluis) - luis.castillo@cinvestav.mx
 - Paulo
 - [Omar Martínez](https://github.com/omarmglz89) - omarmglz@hotmail.com
-- Emiliano
+- [Emiliano Padilla](https://github.com/ephetpv) - emilianopadilla03@gmail.com
