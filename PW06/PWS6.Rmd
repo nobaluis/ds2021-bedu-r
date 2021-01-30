@@ -1,0 +1,51 @@
+---
+title: "PW06"
+author: "Equipo 22"
+date: "1/29/2021"
+output: pdf_document
+---
+
+# Postwork Sesión 6
+#### Objetivo
+* Aprender a crear una serie de tiempo en R
+
+#### Requisitos
+1. R, RStudio
+2. Haber trabajado con el Prework y el Work
+
+#### Desarrollo
+Importa el conjunto de datos match.data.csv a R y realiza lo siguiente:
+```{r}
+suppressMessages(suppressWarnings(library(dplyr)))
+match_data <- read.csv("match.data.csv")
+match_data <- mutate(match_data, date = as.Date(date,"%Y-%m-%d"))
+```
+
+1. Agrega una nueva columna sumagoles que contenga la suma de goles por partido.
+```{r}
+match_data$sumagoles <- match_data$home.score + match_data$away.score
+head(match_data)
+```
+
+2. Obtén el promedio por mes de la suma de goles.
+```{r}
+match_data <- mutate(match_data, Ym = format(date, "%Y-%m"))
+data <- group_by(match_data,Ym) %>% summarise(goles = round(mean(sumagoles),2))
+head(data)
+```
+
+3. Crea la serie de tiempo del promedio por mes de la suma de goles hasta diciembre de 2019.
+```{r}
+data <- ts(data$goles, start = c(2017, 8), end = c(2019, 12), frequency = 12)
+data
+```
+
+4. Grafica la serie de tiempo.
+```{r}
+library(ggplot2)
+library(ggfortify)
+autoplot(data, ts.colour = "red", xlab = "Tiempo", ylab = "Promedio de goles", 
+         main = "Serie de tiempo") +
+      geom_hline(yintercept=mean(data), linetype="dashed", color = "black", size=1)
+```
+
