@@ -1,0 +1,66 @@
+#cargar bd
+library(dplyr)
+library(ggplot2)
+
+partidos <- read.csv("match.data.csv")
+
+library(shiny) 
+
+# Define UI 
+ui <- shinyUI(
+    
+    pageWithSidebar(
+        
+        headerPanel("Resultados PW Sesion 8"),
+        sidebarPanel(p("Graficas con el dataset de 'partidos'"),
+                     selectInput("x", "Equipo local",
+                                 choices = unique(partidos$home.team)), 
+                     selectInput("z", "Equipo visitante",
+                                 choices = unique(partidos$away.team))
+        ),
+        
+        mainPanel(
+            tabsetPanel(
+                
+                tabPanel("Graficas", 
+                         h3(textOutput("output_text")), 
+                         plotOutput("output_plot") 
+                ),
+                
+                tabPanel("Imagen",
+                         img(src ="apuestas.png", width = 450, height = 450)     
+                ), 
+                
+                tabPanel("Summary", verbatimTextOutput("summary")),    # salida del Summary
+                tabPanel("Table", tableOutput("table")),               # salida de la tabla
+                tabPanel("Data Table", dataTableOutput("datatable"))   # salida del data table
+                
+                
+            )
+        ))
+    
+)
+
+
+# Define server
+library(ggplot2)
+server <- shinyServer(function(input, output) {
+    
+    output$output_text <- renderText( {paste("Histograma de goles de local:", input$x)}) #Titulo del main Panel
+    
+    output$output_plot <- renderPlot( {gg <- ggplot(partidos, aes(x = home.score)) + geom_bar() + facet_wrap(~away.team)
+                                      gg})
+        
+    output$summary <- renderPrint( {summary(partidos)} )   # Summary
+    
+    output$table <- renderTable({ data.frame(partidos)})   # Data Frame
+    
+    output$datatable <- renderDataTable( {partidos},       #Data table
+                                         options = list(aLengthMenu = c(10,20,50), iDisplayLength = 10) ) 
+    
+}
+)
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
